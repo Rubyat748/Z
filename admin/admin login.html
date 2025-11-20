@@ -36,6 +36,7 @@ body {
 
   <div class="relative p-6 bg-black border-2 border-green-400 rounded-lg shadow-lg overflow-hidden">
 
+    <!-- GREEN CORNERS -->
     <div class="absolute top-0 left-0 w-6 h-1 bg-green-400"></div>
     <div class="absolute top-0 left-0 w-1 h-6 bg-green-400"></div>
     <div class="absolute top-0 right-0 w-6 h-1 bg-green-400"></div>
@@ -81,7 +82,7 @@ body {
 </div>
 
 <script>
-const correctPass = "89OQBSADETWNA";
+const correctPass = "89OQBSADETWNA";  // your admin password
 const box = document.getElementById("loginBox");
 const input = document.getElementById("adminPass");
 
@@ -93,13 +94,18 @@ input.addEventListener("keydown", function(e){
 
 function checkPass(){
     if(input.value === correctPass){
-        // SUCCESS → Teleport to admin-panel.html
+
+        // Save admin login session
+        localStorage.setItem("zta_admin_login", "yes");
+
+        // Go to admin panel
         window.location.href = "admin-panel.html";
 
     } else {
-        // WRONG PASSWORD
+
         box.classList.add("shake");
         setTimeout(()=> box.classList.remove("shake"), 300);
+
         input.value = "";
         input.placeholder = "INVALID PASSWORD";
     }
