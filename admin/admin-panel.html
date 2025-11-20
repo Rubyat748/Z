@@ -1,137 +1,197 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ZTA Admin Panel</title>
+<title>ZTA – Admin Panel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-body {
-    background: #000;
-    color: #0f0;
-    font-family: "Courier New", monospace;
-}
-.box {
-    border: 2px solid #0f0;
-    border-radius: 12px;
-    background: #050505;
-}
-.btn {
-    border: 1px solid #00ff88;
-    padding: 6px 10px;
-    border-radius: 6px;
-    transition: 0.2s;
-}
-.btn:hover {
-    background: #00ff88;
-    color: black;
-}
+    body {
+        margin: 0;
+        background: #000;
+        font-family: Arial, sans-serif;
+        color: #fff;
+    }
+
+    /* Navbar */
+    .navbar {
+        width: 100%;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #000;
+        border-bottom: 1px solid #111;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+    }
+    .nav-left {
+        font-size: 26px;
+        letter-spacing: 3px;
+        font-weight: 700;
+        color: #9acd32;
+    }
+
+    /* Title */
+    .section-title {
+        font-size: 30px;
+        font-weight: 700;
+        margin-top: 40px;
+        text-align: center;
+        color: #9acd32;
+    }
+
+    /* Card */
+    .admin-card {
+        background: #0b0b0b;
+        border: 1px solid #111;
+        padding: 20px;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+    .admin-card:hover {
+        border-color: #444;
+        transform: translateY(-4px);
+    }
+
+    .user-box {
+        background: #0a0a0a;
+        border: 1px solid #111;
+        padding: 15px;
+        border-radius: 10px;
+        transition: 0.25s;
+    }
+    .user-box:hover {
+        border-color: #333;
+        transform: translateY(-3px);
+    }
+
+    .btn {
+        padding: 8px 14px;
+        border-radius: 6px;
+        border: 1px solid #9acd32;
+        color: #9acd32;
+        transition: 0.25s;
+    }
+    .btn:hover {
+        background: #9acd32;
+        color: black;
+    }
+
+    .logout-btn {
+        color: #f33;
+        border-color: #f33;
+    }
+    .logout-btn:hover {
+        background: #f33;
+        color: #000;
+    }
 </style>
 </head>
 
-<body class="p-6">
+<body>
 
-<h1 class="text-3xl font-bold text-green-400 mb-6">ZTA ADMIN PANEL</h1>
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="nav-left">ZTA ADMIN</div>
 
-
-<!-- USER LIST -->
-<div class="box p-4">
-
-    <h2 class="text-xl text-green-300 mb-3">👤 User Management</h2>
-
-    <!-- Search -->
-    <input id="searchUser"
-        class="w-full mb-4 bg-transparent border border-green-600 p-2 rounded text-green-300"
-        placeholder="Search username or email">
-
-    <div id="userList" class="space-y-4"></div>
-
+    <div class="nav-right flex gap-6">
+        <a class="logout-btn btn" href="#" onclick="logoutAdmin()">Logout</a>
+    </div>
 </div>
 
+<!-- TITLE -->
+<h2 class="section-title">User Management</h2>
+
+<!-- SEARCH BAR + BUTTON -->
+<div class="max-w-4xl mx-auto mt-6 flex gap-3 p-4">
+    <input id="searchUser"
+        class="w-full bg-transparent border border-gray-700 p-3 rounded text-green-300"
+        placeholder="Search by username, email or UID">
+
+    <button class="btn" onclick="loadUsers()">FIND</button>
+</div>
+
+<!-- USER SECTIONS -->
+<div class="max-w-5xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 p-4">
+
+    <!-- ONLINE USERS -->
+    <div class="admin-card">
+        <h3 class="text-lg font-bold mb-3 text-green-300">🟢 ONLINE USERS</h3>
+        <div id="onlineUsers">Loading...</div>
+    </div>
+
+    <!-- ALL USERS -->
+    <div class="admin-card">
+        <h3 class="text-lg font-bold mb-3 text-green-300">👤 ALL USERS</h3>
+        <div id="userList">Loading...</div>
+    </div>
+
+    <!-- OFFLINE USERS -->
+    <div class="admin-card">
+        <h3 class="text-lg font-bold mb-3 text-green-300">🔴 OFFLINE USERS</h3>
+        <div id="offlineUsers">Loading...</div>
+    </div>
+
+</div>
 
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-<!-- your firebase config file -->
 <script src="firebase.js"></script>
 
-
-
 <script>
-// ================================
-// SECURITY CHECK
-// ================================
+// ======================
+// ADMIN SECURITY
+// ======================
 if (!localStorage.getItem("zta_admin_login")) {
     window.location.href = "admin-login.html";
 }
 
-
-
-// ================================
-// BAN/UNBAN FUNCTIONS (FIRESTORE)
-// ================================
-async function banUser(uid) {
-    await ZTA.db.collection("users").doc(uid).update({
-        banned: true
-    });
-    alert("User BANNED: " + uid);
-    loadUsers();
+function logoutAdmin() {
+    localStorage.removeItem("zta_admin_login");
+    window.location.href = "admin-login.html";
 }
 
-async function unbanUser(uid) {
-    await ZTA.db.collection("users").doc(uid).update({
-        banned: false
-    });
-    alert("User UNBANNED: " + uid);
-    loadUsers();
-}
-
-
-
-// ================================
-// LOAD ALL USERS (FIRESTORE)
-// ================================
+// ======================
+// LOAD USER LIST (ALL)
+// ======================
 async function loadUsers() {
-    const userList = document.getElementById("userList");
-    const searchTerm = document.getElementById("searchUser").value.toLowerCase();
+    const list = document.getElementById("userList");
+    const search = document.getElementById("searchUser").value.toLowerCase();
 
     const snap = await ZTA.db.collection("users").get();
 
-    userList.innerHTML = "";
+    list.innerHTML = "";
 
     snap.forEach(doc => {
         const u = doc.data();
         const uid = doc.id;
 
-        if (!u.email && !u.username) return;
+        if (!u.email) return;
 
         if (
-            (u.username && u.username.toLowerCase().includes(searchTerm)) ||
-            (u.email && u.email.toLowerCase().includes(searchTerm)) ||
-            uid.toLowerCase().includes(searchTerm)
+            uid.toLowerCase().includes(search) ||
+            (u.username && u.username.toLowerCase().includes(search)) ||
+            (u.email && u.email.toLowerCase().includes(search))
         ) {
-            const banned = u.banned === true ? "YES" : "NO";
-            const color = banned === "YES" ? "text-red-400" : "text-green-400";
+            list.innerHTML += `
+                <div class="user-box mb-3">
+                    <p><b>UID:</b> ${uid}</p>
+                    <p><b>Username:</b> ${u.username || "N/A"}</p>
+                    <p><b>Email:</b> ${u.email}</p>
+                    <p><b>Banned:</b> ${u.banned ? "<span style='color:red'>YES</span>" : "<span style='color:lightgreen'>NO</span>"}</p>
 
-            userList.innerHTML += `
-                <div class="box p-4">
-                    <p><span class="text-green-500">UID:</span> ${uid}</p>
-                    <p><span class="text-green-500">Username:</span> ${u.username || "N/A"}</p>
-                    <p><span class="text-green-500">Email:</span> ${u.email}</p>
-
-                    <p><span class="text-green-500">Banned:</span> 
-                       <span class="${color}">${banned}</span>
-                    </p>
-
-                    <div class="mt-3 flex gap-3">
-                        <button onclick="banUser('${uid}')" class="btn">BAN</button>
-                        <button onclick="unbanUser('${uid}')" class="btn">UNBAN</button>
+                    <div class="flex gap-3 mt-2">
+                        <button class="btn" onclick="banUser('${uid}')">BAN</button>
+                        <button class="btn" onclick="unbanUser('${uid}')">UNBAN</button>
                     </div>
                 </div>
             `;
@@ -139,16 +199,54 @@ async function loadUsers() {
     });
 }
 
+// BAN / UNBAN
+async function banUser(uid) {
+    await ZTA.db.collection("users").doc(uid).update({ banned: true });
+    loadUsers();
+}
+async function unbanUser(uid) {
+    await ZTA.db.collection("users").doc(uid).update({ banned: false });
+    loadUsers();
+}
 
 
-// SEARCH LIVE
-document.getElementById("searchUser").addEventListener("input", loadUsers);
+// ============================
+// REALTIME ONLINE USER SYSTEM
+// ============================
+const rtdb = firebase.database();
 
+rtdb.ref("status").on("value", async snap => {
+    const onlineBox = document.getElementById("onlineUsers");
+    const offlineBox = document.getElementById("offlineUsers");
+
+    const data = snap.val();
+
+    onlineBox.innerHTML = "";
+    offlineBox.innerHTML = "";
+
+    const users = await ZTA.db.collection("users").get();
+
+    users.forEach(doc => {
+        const uid = doc.id;
+        const u = doc.data();
+
+        const isOnline = data && data[uid] && data[uid].state === "online";
+
+        const boxHtml = `
+            <div class="user-box mb-3">
+                <p><b>${u.username}</b></p>
+                <p>${u.email}</p>
+            </div>
+        `;
+
+        if (isOnline) onlineBox.innerHTML += boxHtml;
+        else offlineBox.innerHTML += boxHtml;
+    });
+});
 
 // INITIAL LOAD
 loadUsers();
 </script>
-
 
 </body>
 </html>
