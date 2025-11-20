@@ -1,7 +1,6 @@
-// firebase config placeholder
-// ==========================================
-// ZTA – Firebase Setup (FINAL)
-// ==========================================
+// ==========================================================
+// ZTA – Firebase Setup (FULL FIXED)
+// ==========================================================
 
 const firebaseConfig = {
     apiKey: "AIzaSyB7P7DL0zypsux8x0fIf4v0UMNVR30GB_k",
@@ -14,155 +13,111 @@ const firebaseConfig = {
 };
 
 // Init Firebase
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
+
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
+const rtdb = firebase.database();
 
 
 // ==========================================================
-// LOGIN SYSTEM
+// SIGNUP → Create Firestore User Document
 // ==========================================================
 
-async function ztaLogin(email, password) {
+async function ztaSignup(username, email, password) {
     try {
-        const user = await auth.signInWithEmailAndPassword(email, password);
-        localStorage.setItem("zta_user", user.user.uid);
+        const user = await auth.createUserWithEmailAndPassword(email, password);
+
+        await db.collection("users").doc(user.user.uid).set({
+            username: username,
+            email: email,
+            banned: false,
+            created: Date.now()
+        });
+
         return { success: true, user: user.user };
+
     } catch (error) {
         return { success: false, error: error.message };
     }
 }
 
-function ztaCheckLogin() {
-    return localStorage.getItem("zta_user") !== null;
+
+// ==========================================================
+// LOGIN + Realtime Presence
+// ==========================================================
+
+async function ztaLogin(email, password) {
+    try {
+        const res = await auth.signInWithEmailAndPassword(email, password);
+        const uid = res.user.uid;
+
+        localStorage.setItem("zta_user", uid);
+
+        // presence system
+        const statusRef = rtdb.ref("status/" + uid);
+        statusRef.set({ state: "online", time: Date.now() });
+        statusRef.onDisconnect().set({ state: "offline", time: Date.now() });
+
+        return { success: true, user: res.user };
+
+    } catch (e) {
+        return { success: false, error: e.message };
+    }
 }
 
+
+// ==========================================================
+// LOGOUT
+// ==========================================================
+
 function ztaLogout() {
+    const uid = localStorage.getItem("zta_user");
+
+    if (uid) {
+        rtdb.ref("status/" + uid).set({ state: "offline", time: Date.now() });
+    }
+
     auth.signOut();
     localStorage.removeItem("zta_user");
     window.location.href = "login.html";
 }
 
 
-
 // ==========================================================
-// ADMIN PASSWORD LOGIN (FOR admin-login.html)
+// ADMIN LOGIN FIXED KEY
 // ==========================================================
 
 const adminMasterPass = "89OQBSADETWNA";
 
 function checkAdminPassword(input) {
     if (input === adminMasterPass) {
-        localStorage.setItem("zta_admin", "true");
+        localStorage.setItem("zta_admin_login", "true"); // FIXED
         return true;
     }
     return false;
 }
 
 function requireAdmin() {
-    if (!localStorage.getItem("zta_admin")) {
+    if (!localStorage.getItem("zta_admin_login")) {
         window.location.href = "admin-login.html";
     }
 }
 
 
-
 // ==========================================================
-// BLOG SYSTEM (Firestore)
-// ==========================================================
-
-// ADD POST
-async function addBlog(title, text, imageURL) {
-    return await db.collection("blog").add({
-        title: title,
-        text: text,
-        image: imageURL,
-        date: new Date()
-    });
-}
-
-// GET ALL POSTS
-async function getAllBlogs() {
-    const snap = await db.collection("blog")
-        .orderBy("date", "desc")
-        .get();
-    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-}
-
-// GET ONE POST
-async function getBlogById(id) {
-    const docSnap = await db.collection("blog").doc(id).get();
-    if (!docSnap.exists) return null;
-    return { id: id, ...docSnap.data() };
-}
-
-
-
-// ==========================================================
-// IMAGE UPLOAD (Storage)
-// ==========================================================
-
-async function uploadImage(file, folder = "uploads") {
-    const ref = storage.ref(`${folder}/${Date.now()}_${file.name}`);
-    await ref.put(file);
-    return await ref.getDownloadURL();
-}
-
-
-
-// ==========================================================
-// SHOP SYSTEM
-// ==========================================================
-
-// GET PRODUCTS
-async function getProducts() {
-    const snap = await db.collection("products").get();
-    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-}
-
-// ADD TO CART
-function addToCart(productID) {
-    let cart = JSON.parse(localStorage.getItem("zta_cart") || "[]");
-    cart.push(productID);
-    localStorage.setItem("zta_cart", JSON.stringify(cart));
-}
-
-// GET CART
-function getCart() {
-    return JSON.parse(localStorage.getItem("zta_cart") || "[]");
-}
-
-// CLEAR CART
-function clearCart() {
-    localStorage.removeItem("zta_cart");
-}
-
-
-
-// ==========================================================
-// EXPOSE FUNCTIONS GLOBALLY
+// GLOBAL EXPORT
 // ==========================================================
 
 window.ZTA = {
+    signup: ztaSignup,
     login: ztaLogin,
-    checkLogin: ztaCheckLogin,
     logout: ztaLogout,
-
     checkAdminPassword,
     requireAdmin,
-
-    addBlog,
-    getAllBlogs,
-    getBlogById,
-    uploadImage,
-
-    getProducts,
-    addToCart,
-    getCart,
-    clearCart,
-
     db,
     auth,
-    storage
+    storage,
+    rtdb
 };
