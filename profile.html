@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ZTA – Profile</title>
+<title>ZTA – My Profile</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
     body {
         margin: 0;
-        background: #000;
         font-family: Arial, sans-serif;
+        background: #000;
         color: #fff;
+        min-height: 100vh;
     }
 
-    /* NAVBAR (same as your theme) */
+    /* Navbar - EXACT same as index.html */
     .navbar {
         width: 100%;
         padding: 20px 40px;
@@ -30,6 +31,7 @@
         font-size: 26px;
         letter-spacing: 3px;
         font-weight: 700;
+        color: #9acd32;
     }
     .nav-right a {
         margin-left: 25px;
@@ -38,110 +40,274 @@
         font-size: 16px;
         transition: 0.3s;
     }
-    .nav-right a:hover { color: #fff; }
-
-    /* PROFILE CARD */
-    .profile-box {
-        max-width: 500px;
-        margin: 80px auto;
-        background: #0b0b0b;
-        border: 1px solid #111;
-        padding: 30px;
-        border-radius: 12px;
-        text-align: center;
+    .nav-right a:hover {
+        color: #fff;
     }
 
-    .profile-title {
-        font-size: 32px;
+    /* Hero (smaller than home) */
+    .hero {
+        width: 100%;
+        height: 45vh;
+        background: url("assets/background.jpg") center/cover no-repeat;
+        position: relative;
+    }
+    .hero::after {
+        content: "";
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.95));
+    }
+    .hero-text {
+        position: absolute;
+        bottom: 60px;
+        left: 60px;
+        font-size: 46px;
+        font-weight: 800;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: #9acd32;
+    }
+
+    /* Profile Container */
+    .profile-container {
+        max-width: 900px;
+        margin: 80px auto;
+        padding: 0 40px;
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 50px;
+    }
+
+    /* Avatar Box */
+    .avatar-box {
+        text-align: center;
+    }
+    .avatar {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 4px solid #9acd32;
+        object-fit: cover;
+        box-shadow: 0 0 30px rgba(154, 205, 50, 0.3);
+    }
+    .default-avatar {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: #111;
+        border: 4px solid #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 70px;
+        color: #555;
+    }
+
+    /* Info Box */
+    .info-box {
+        background: #0b0b0b;
+        border: 1px solid #111;
+        border-radius: 12px;
+        padding: 30px;
+        height: fit-content;
+    }
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px 0;
+        border-bottom: 1px solid #222;
+    }
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    .label {
+        color: #999;
+        font-size: 15px;
+    }
+    .value {
+        color: #fff;
+        font-weight: 600;
+    }
+    .username-display {
+        font-size: 28px;
         font-weight: 700;
+        color: #9acd32;
         margin-bottom: 20px;
     }
 
-    .profile-item {
-        margin-top: 12px;
-        font-size: 17px;
-        color: #bbb;
+    /* Status Badge */
+    .status-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+        margin-top: 10px;
     }
+    .online { background: #1a4d1a; color: #9acd32; }
+    .offline { background: #4d1a1a; color: #ff6666; }
 
-    .logout-btn {
-        margin-top: 40px;
-        padding: 12px 25px;
-        background: #9a0000;
-        border: none;
-        color: #fff;
-        font-size: 16px;
+    /* Buttons */
+    .btn {
+        margin-top: 25px;
+        padding: 12px 24px;
+        background: transparent;
+        border: 1px solid #9acd32;
+        color: #9acd32;
         border-radius: 8px;
         cursor: pointer;
         transition: 0.3s;
+        font-weight: bold;
+    }
+    .btn:hover {
+        background: #9acd32;
+        color: #000;
+    }
+    .logout-btn {
+        background: #330000;
+        border-color: #f33;
+        color: #f33;
+        margin-left: 10px;
     }
     .logout-btn:hover {
-        background: #c30000;
+        background: #f33;
+        color: #000;
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 40px;
+        color: #777;
+        font-size: 14px;
+        border-top: 1px solid #111;
+        margin-top: 120px;
     }
 </style>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-<script src="firebase.js"></script>
 </head>
-
 <body>
 
 <!-- NAVBAR -->
 <div class="navbar">
     <div class="nav-left">ZTA</div>
-
     <div class="nav-right">
+        <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="gallery.html">Gallery</a>
         <a href="blog.html">Blog</a>
         <a href="gears.html">Gears</a>
         <a href="shop.html">Shop</a>
-        <a id="loginBtn" href="login.html">Login</a>
-        <a id="profileBtn" href="profile.html" style="display:none;">Profile</a>
-        <a href="cart.html">Cart</a>
+        <a href="profile.html">Profile</a>
+        <a href="#" onclick="ZTA.logout()">Logout</a>
     </div>
 </div>
 
-
-<!-- PROFILE SECTION -->
-<div class="profile-box">
-    <div class="profile-title">Your Profile</div>
-
-    <div class="profile-item"><b>Username:</b> <span id="p-username">...</span></div>
-    <div class="profile-item"><b>Email:</b> <span id="p-email">...</span></div>
-    <div class="profile-item"><b>Joined:</b> <span id="p-date">...</span></div>
-
-    <button class="logout-btn" onclick="ZTA.logout()">Logout</button>
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-text">My Profile</div>
 </div>
 
+<!-- PROFILE SECTION -->
+<div class="profile-container">
+
+    <!-- Avatar -->
+    <div class="avatar-box">
+        <div id="avatarPlaceholder" class="default-avatar">?</div>
+        <img id="avatarImg" class="avatar" style="display:none;" alt="Profile Picture">
+        <p id="statusText" class="status-badge offline">Offline</p>
+    </div>
+
+    <!-- Info -->
+    <div class="info-box">
+        <div class="username-display" id="displayUsername">Loading...</div>
+
+        <div class="info-row">
+            <span class="label">User ID</span>
+            <span class="value" id="uid">—</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Email</span>
+            <span class="value" id="email">—</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Member Since</span>
+            <span class="value" id="joined">—</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Account Status</span>
+            <span class="value" id="bannedStatus">Active</span>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <button class="btn" onclick="alert('Edit profile coming soon!')">Edit Profile</button>
+            <button class="btn logout-btn" onclick="ZTA.logout()">Logout</button>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    © 2025 ZTA — All rights reserved.
+</footer>
+
+<!-- Firebase (same as admin panel) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<!-- Your firebase.js -->
+<script src="firebase.js"></script>
 
 <script>
-// 🌙 Navbar Login/Profile Switch
-if (ZTA.checkLogin()) {
-    document.getElementById("loginBtn").style.display = "none";
-    document.getElementById("profileBtn").style.display = "inline";
-} else {
-    window.location.href = "login.html"; // must login first
+// Redirect if not logged in
+firebase.auth().onAuthStateChanged(user => {
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    loadProfile(user);
+    monitorOnlineStatus(user.uid);
+});
+
+// Load user data from Firestore
+async function loadProfile(user) {
+    const doc = await ZTA.db.collection("users").doc(user.uid).get();
+
+    if (doc.exists) {
+        const data = doc.data();
+
+        document.getElementById("displayUsername").textContent = data.username || "Astronomer";
+        document.getElementById("uid").textContent = user.uid.slice(0, 12) + "...";
+        document.getElementById("email").textContent = user.email;
+
+        const date = new Date(data.created);
+        document.getElementById("joined").textContent = date.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
+
+        if (data.banned) {
+            document.getElementById("bannedStatus").textContent = "BANNED";
+            document.getElementById("bannedStatus").style.color = "#ff3333";
+        }
+    }
 }
 
-// 🌙 Load Profile Info
-firebase.auth().onAuthStateChanged(async user => {
-    if (!user) return;
+// Realtime online status
+function monitorOnlineStatus(uid) {
+    ZTA.rtdb.ref("status/" + uid).on("value", snap => {
+        const status = snap.val();
+        const badge = document.getElementById("statusText");
 
-    const uid = user.uid;
-
-    const doc = await ZTA.db.collection("users").doc(uid).get();
-    const data = doc.data();
-
-    document.getElementById("p-username").innerText = data?.username || "Unknown";
-    document.getElementById("p-email").innerText = data?.email || user.email;
-
-    const date = data?.createdAt?.toDate ? data.createdAt.toDate() : new Date();
-    document.getElementById("p-date").innerText = date.toDateString();
-});
+        if (status && status.state === "online") {
+            badge.textContent = "Online Now";
+            badge.className = "status-badge online";
+        } else {
+            badge.textContent = "Offline";
+            badge.className = "status-badge offline";
+        }
+    });
+}
 </script>
 
 </body>
