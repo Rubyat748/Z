@@ -5,62 +5,106 @@
 <title>ZTA – Gears</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-body {
-    background: #000;
-    color: #0f0;
-    font-family: "Courier New", monospace;
-}
+    body {
+        background: #000;
+        color: #0f0;
+        font-family: "Courier New", monospace;
+    }
 
-/* Card style */
-.gear-card {
-    background: #0a0a0a;
-    border: 1px solid #0f0;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: 0.3s;
-}
+    /* Navbar */
+    .navbar {
+        width: 100%;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #003300;
+        background: #000;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    .nav-left {
+        font-size: 26px;
+        color: #00ff88;
+        font-weight: 900;
+        letter-spacing: 3px;
+    }
+    .nav-right a {
+        margin-left: 25px;
+        color: #0f0;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+    .nav-right a:hover {
+        color: #88ff88;
+    }
 
-.gear-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 20px #00ff80;
-    border-color: #00ff80;
-}
+    /* Section Title */
+    .section-title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: #00ff99;
+        margin-top: 40px;
+    }
 
-.gear-img {
-    width: 100%;
-    height: 170px;
-    object-fit: cover;
-}
+    /* Gear Card */
+    .gear-card {
+        background: #050505;
+        border: 1px solid #004400;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: 0.25s;
+    }
 
-.gear-title {
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-align: center;
-    color: #0f0;
-}
+    .gear-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 0 18px #00ff80;
+        border-color: #00ff80;
+    }
 
-.nav-title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #00ff88;
-}
+    .gear-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+
+    .gear-title {
+        padding: 15px;
+        text-align: center;
+        font-size: 18px;
+        color: #00ff80;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
 </style>
 
 </head>
 <body>
 
 <!-- NAVBAR -->
-<div class="w-full p-4 flex justify-between items-center border-b border-green-500">
-    <span class="nav-title">ZTA / GEARS</span>
-    <a href="index.html" class="text-green-400 hover:text-green-200">Home</a>
+<div class="navbar">
+    <div class="nav-left">ZTA</div>
+
+    <div class="nav-right">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Blog</a>
+        <a href="gears.html" style="color:#88ff88;">Gears</a>
+        <a href="shop.html">Shop</a>
+        <a href="login.html">Login</a>
+        <a href="cart.html">Cart</a>
+    </div>
 </div>
 
-<!-- GEARS GRID -->
+<h2 class="section-title">ZTA GEARS</h2>
+
+<!-- GRID -->
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
 
     <!-- Gear 1 -->
@@ -72,7 +116,7 @@ body {
     <!-- Gear 2 -->
     <div class="gear-card">
         <img src="assets/gear2.jpg" class="gear-img">
-        <p class="gear-title">Pipe Converter 93→96mm</p>
+        <p class="gear-title">Pipe Converter 93 → 96 mm</p>
     </div>
 
     <!-- Gear 3 -->
@@ -93,7 +137,7 @@ body {
         <p class="gear-title">Telescope Primary Holder</p>
     </div>
 
-    <!-- Gear 6 -->
+    <!-- Gear 6 (Fixed typo) -->
     <div class="gear-card">
         <img src="assets/gear6.jpg" class="gear-img">
         <p class="gear-title">Precision Rotation Ring</p>
