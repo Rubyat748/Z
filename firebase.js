@@ -55,7 +55,7 @@ async function ztaLogin(email, password) {
 
         localStorage.setItem("zta_user", uid);
 
-        // presence system
+        // presence
         const statusRef = rtdb.ref("status/" + uid);
         statusRef.set({ state: "online", time: Date.now() });
         statusRef.onDisconnect().set({ state: "offline", time: Date.now() });
@@ -86,14 +86,14 @@ function ztaLogout() {
 
 
 // ==========================================================
-// ADMIN LOGIN FIXED KEY
+// ADMIN LOGIN FIXED
 // ==========================================================
 
 const adminMasterPass = "89OQBSADETWNA";
 
 function checkAdminPassword(input) {
     if (input === adminMasterPass) {
-        localStorage.setItem("zta_admin_login", "true"); // FIXED
+        localStorage.setItem("zta_admin_login", "true");
         return true;
     }
     return false;
@@ -112,10 +112,12 @@ function requireAdmin() {
 
 window.ZTA = {
     signup: ztaSignup,
-    login: ztaLogin,
+    login: ztaLogin,     // ✔ FIXED
     logout: ztaLogout,
+
     checkAdminPassword,
     requireAdmin,
+
     db,
     auth,
     storage,
