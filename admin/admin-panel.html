@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,6 +37,7 @@ body {
 
 <h1 class="text-3xl font-bold text-green-400 mb-6">ZTA ADMIN PANEL</h1>
 
+
 <!-- USER LIST -->
 <div class="box p-4">
 
@@ -44,58 +46,76 @@ body {
     <!-- Search -->
     <input id="searchUser"
         class="w-full mb-4 bg-transparent border border-green-600 p-2 rounded text-green-300"
-        placeholder="Search username / UID">
+        placeholder="Search username or email">
 
     <div id="userList" class="space-y-4"></div>
 
 </div>
 
+
+
 <!-- FIREBASE -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-const firebaseConfig = {
-    apiKey: "YOUR_KEY",
-    authDomain: "YOUR_DOMAIN",
-    databaseURL: "YOUR_DB_URL",
-    projectId: "YOUR_PROJECT",
-    storageBucket: "YOUR_BUCKET",
-    messagingSenderId: "SENDER",
-    appId: "APP_ID"
-};
+<!-- your firebase config file -->
+<script src="firebase.js"></script>
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
 
-const userList = document.getElementById("userList");
-const searchUser = document.getElementById("searchUser");
 
-// FETCH ALL USERS LIVE
-onValue(ref(db, "users"), (snapshot) => {
-    const users = snapshot.val();
-    displayUsers(users);
-});
+<script>
+// ================================
+// SECURITY CHECK
+// ================================
+if (!localStorage.getItem("zta_admin_login")) {
+    window.location.href = "admin-login.html";
+}
 
-// DISPLAY USERS
-function displayUsers(users) {
+
+
+// ================================
+// BAN/UNBAN FUNCTIONS (FIRESTORE)
+// ================================
+async function banUser(uid) {
+    await ZTA.db.collection("users").doc(uid).update({
+        banned: true
+    });
+    alert("User BANNED: " + uid);
+    loadUsers();
+}
+
+async function unbanUser(uid) {
+    await ZTA.db.collection("users").doc(uid).update({
+        banned: false
+    });
+    alert("User UNBANNED: " + uid);
+    loadUsers();
+}
+
+
+
+// ================================
+// LOAD ALL USERS (FIRESTORE)
+// ================================
+async function loadUsers() {
+    const userList = document.getElementById("userList");
+    const searchTerm = document.getElementById("searchUser").value.toLowerCase();
+
+    const snap = await ZTA.db.collection("users").get();
+
     userList.innerHTML = "";
 
-    if (!users) {
-        userList.innerHTML = "<p class='text-red-400'>No users found.</p>";
-        return;
-    }
+    snap.forEach(doc => {
+        const u = doc.data();
+        const uid = doc.id;
 
-    const search = searchUser.value.toLowerCase();
-
-    Object.keys(users).forEach(uid => {
-        const u = users[uid];
+        if (!u.email && !u.username) return;
 
         if (
-            (u.username && u.username.toLowerCase().includes(search)) ||
-            uid.toLowerCase().includes(search)
+            (u.username && u.username.toLowerCase().includes(searchTerm)) ||
+            (u.email && u.email.toLowerCase().includes(searchTerm)) ||
+            uid.toLowerCase().includes(searchTerm)
         ) {
-
             const banned = u.banned === true ? "YES" : "NO";
             const color = banned === "YES" ? "text-red-400" : "text-green-400";
 
@@ -103,7 +123,7 @@ function displayUsers(users) {
                 <div class="box p-4">
                     <p><span class="text-green-500">UID:</span> ${uid}</p>
                     <p><span class="text-green-500">Username:</span> ${u.username || "N/A"}</p>
-                    <p><span class="text-green-500">Email:</span> ${u.email || "N/A"}</p>
+                    <p><span class="text-green-500">Email:</span> ${u.email}</p>
 
                     <p><span class="text-green-500">Banned:</span> 
                        <span class="${color}">${banned}</span>
@@ -119,25 +139,16 @@ function displayUsers(users) {
     });
 }
 
-// BAN USER
-window.banUser = function(uid) {
-    update(ref(db, "users/" + uid), { banned: true });
-    alert("User banned: " + uid);
-}
 
-// UNBAN USER
-window.unbanUser = function(uid) {
-    update(ref(db, "users/" + uid), { banned: false });
-    alert("User unbanned: " + uid);
-}
 
-// Live search
-searchUser.addEventListener("input", () => {
-    onValue(ref(db, "users"), (snapshot) => {
-        displayUsers(snapshot.val());
-    });
-});
+// SEARCH LIVE
+document.getElementById("searchUser").addEventListener("input", loadUsers);
+
+
+// INITIAL LOAD
+loadUsers();
 </script>
+
 
 </body>
 </html>
