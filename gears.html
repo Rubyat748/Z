@@ -5,13 +5,12 @@
 <title>ZTA – Gears</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.tailwindcss.com"></script>
-
 <style>
     body {
+        margin: 0;
+        font-family: Arial, sans-serif;
         background: #000;
-        color: #0f0;
-        font-family: "Courier New", monospace;
+        color: #fff;
     }
 
     /* Navbar */
@@ -21,51 +20,61 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid #003300;
         background: #000;
+        border-bottom: 1px solid #111;
         position: sticky;
         top: 0;
         z-index: 100;
     }
     .nav-left {
         font-size: 26px;
-        color: #00ff88;
-        font-weight: 900;
         letter-spacing: 3px;
+        font-weight: 700;
+        color: #00ff88;
     }
     .nav-right a {
         margin-left: 25px;
-        color: #0f0;
+        color: #ccc;
         text-decoration: none;
         font-size: 16px;
         transition: 0.3s;
     }
     .nav-right a:hover {
-        color: #88ff88;
+        color: #fff;
     }
 
-    /* Section Title */
+    /* Title */
     .section-title {
-        text-align: center;
         font-size: 32px;
-        font-weight: bold;
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-align: center;
+        margin-top: 60px;
         color: #00ff99;
-        margin-top: 40px;
     }
 
-    /* Gear Card */
+    /* Gear Cards */
+    .grid {
+        max-width: 1300px;
+        margin: 50px auto;
+        padding: 0 40px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+        gap: 35px;
+    }
+
     .gear-card {
-        background: #050505;
-        border: 1px solid #004400;
-        border-radius: 10px;
+        background: #0b0b0b;
+        border: 1px solid #111;
+        border-radius: 12px;
         overflow: hidden;
-        transition: 0.25s;
+        transition: 0.3s;
     }
 
     .gear-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 0 18px #00ff80;
-        border-color: #00ff80;
+        border-color: #444;
+        box-shadow: 0 0 20px rgba(0,255,120,0.4);
     }
 
     .gear-img {
@@ -76,15 +85,24 @@
 
     .gear-title {
         padding: 15px;
-        text-align: center;
         font-size: 18px;
-        color: #00ff80;
         font-weight: bold;
+        color: #00ff80;
+        text-align: center;
         letter-spacing: 1px;
     }
-</style>
 
+    footer {
+        text-align: center;
+        padding: 30px;
+        color: #777;
+        font-size: 14px;
+        margin-top: 100px;
+        border-top: 1px solid #111;
+    }
+</style>
 </head>
+
 <body>
 
 <!-- NAVBAR -->
@@ -105,45 +123,43 @@
 <h2 class="section-title">ZTA GEARS</h2>
 
 <!-- GRID -->
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+<div class="grid">
 
-    <!-- Gear 1 -->
     <div class="gear-card">
         <img src="assets/gear1.jpg" class="gear-img">
         <p class="gear-title">ZTA Focuser Model</p>
     </div>
 
-    <!-- Gear 2 -->
     <div class="gear-card">
         <img src="assets/gear2.jpg" class="gear-img">
         <p class="gear-title">Pipe Converter 93 → 96 mm</p>
     </div>
 
-    <!-- Gear 3 -->
     <div class="gear-card">
         <img src="assets/gear3.jpg" class="gear-img">
         <p class="gear-title">Adjustable Eyepiece Tube</p>
     </div>
 
-    <!-- Gear 4 -->
     <div class="gear-card">
         <img src="assets/gear4.jpg" class="gear-img">
         <p class="gear-title">ZTA Support Frame</p>
     </div>
 
-    <!-- Gear 5 -->
     <div class="gear-card">
         <img src="assets/gear5.jpg" class="gear-img">
         <p class="gear-title">Telescope Primary Holder</p>
     </div>
 
-    <!-- Gear 6 (Fixed typo) -->
     <div class="gear-card">
         <img src="assets/gear6.jpg" class="gear-img">
         <p class="gear-title">Precision Rotation Ring</p>
     </div>
 
 </div>
+
+<footer>
+    © 2025 ZTA — All rights reserved.
+</footer>
 
 </body>
 </html>
