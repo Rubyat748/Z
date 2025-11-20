@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>About – ZTA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #000;
+        color: #fff;
+    }
+
+    /* Navbar */
+    .navbar {
+        width: 100%;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #000;
+        border-bottom: 1px solid #111;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    .nav-left {
+        font-size: 26px;
+        letter-spacing: 3px;
+        font-weight: 700;
+    }
+    .nav-right a {
+        margin-left: 25px;
+        color: #ccc;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+    .nav-right a:hover {
+        color: #fff;
+    }
+
+    /* Hero Section */
+    .hero {
+        width: 100%;
+        height: 55vh;
+        background: url("assets/about-hero.jpg") center/cover no-repeat;
+        position: relative;
+    }
+    .hero::after {
+        content: "";
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.9));
+    }
+    .hero-text {
+        position: absolute;
+        bottom: 40px;
+        left: 50px;
+        font-size: 40px;
+        font-weight: 800;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+    }
+
+    /* About Section (BEST layout) */
+    .about-wrapper {
+        display: flex;
+        width: 100%;
+        max-width: 1250px;
+        margin: 80px auto;
+        gap: 50px;
+        padding: 0 40px;
+    }
+    .about-img {
+        width: 45%;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .about-img img {
+        width: 100%;
+        border-radius: 12px;
+    }
+    .about-text {
+        width: 55%;
+        font-size: 18px;
+        line-height: 1.8;
+        color: #ddd;
+    }
+    .about-title {
+        font-size: 34px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 30px;
+        color: #777;
+        font-size: 14px;
+        margin-top: 100px;
+        border-top: 1px solid #111;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="nav-left">ZTA</div>
+    <div class="nav-right">
+        <a href="about.html">About</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="blog.html">Blog</a>
+        <a href="gears.html">Gears</a>
+        <a href="shop.html">Shop</a>
+        <a href="login.html">Login</a>
+        <a href="cart.html">Cart</a>
+    </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-text">About ZTA</div>
+</div>
+
+<!-- ABOUT CONTENT -->
+<div class="about-wrapper">
+
+    <div class="about-img">
+        <img src="assets/about-profile.jpg" alt="About Image">
+    </div>
+
+    <div class="about-text">
+        <div class="about-title">A Journey Beyond Space</div>
+        Welcome to **ZTA**, a vision dedicated to capturing the unseen beauty of the cosmos.
+        Our mission is to explore the night sky with passion, precision, and advanced optics—
+        transforming distant celestial wonders into breathtaking visual experiences.
+
+        <br><br>
+
+        From deep sky observations to planetary imaging, ZTA focuses on blending
+        **technology, creativity, and scientific curiosity** into every frame.  
+        Our work represents years of dedication to telescopes, lenses, astrophotography,
+        and custom-built optical systems designed to push boundaries.
+
+        <br><br>
+
+        Whether you're an astrophotographer, stargazer, researcher, or a cosmic dreamer,
+        ZTA stands as a gateway to the limitless universe.
+
+        <br><br>
+        **Look up. Explore. Discover.**
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    © 2025 ZTA — All rights reserved.
+</footer>
+
+</body>
+</html>

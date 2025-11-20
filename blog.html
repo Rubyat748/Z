@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZTA – Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #000;
+        color: #fff;
+    }
+
+    /* Navbar */
+    .navbar {
+        width: 100%;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #000;
+        border-bottom: 1px solid #111;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    .nav-left {
+        font-size: 26px;
+        letter-spacing: 3px;
+        font-weight: 700;
+    }
+    .nav-right a {
+        margin-left: 25px;
+        color: #ccc;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+    .nav-right a:hover {
+        color: #fff;
+    }
+
+    /* Hero */
+    .hero {
+        width: 100%;
+        height: 50vh;
+        background: url("assets/blog-hero.jpg") center/cover no-repeat;
+        position: relative;
+    }
+    .hero::after {
+        content: "";
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.95));
+    }
+    .hero-text {
+        position: absolute;
+        bottom: 40px;
+        left: 50px;
+        font-size: 40px;
+        font-weight: 800;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+    }
+
+    /* Blog Grid */
+    .blog-container {
+        max-width: 1300px;
+        margin: 70px auto;
+        padding: 0 40px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+        gap: 35px;
+    }
+
+    .blog-card {
+        background: #0b0b0b;
+        border: 1px solid #111;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: 0.3s;
+    }
+    .blog-card:hover {
+        transform: translateY(-6px);
+        border-color: #444;
+    }
+    .blog-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+    .blog-content {
+        padding: 20px;
+    }
+    .blog-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+    .blog-text {
+        color: #bbb;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+    .blog-read {
+        display: inline-block;
+        margin-top: 15px;
+        color: #9acd32;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    .blog-read:hover {
+        color: #c6ff7a;
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 30px;
+        color: #777;
+        font-size: 14px;
+        margin-top: 100px;
+        border-top: 1px solid #111;
+    }
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="nav-left">ZTA</div>
+
+    <div class="nav-right">
+        <a href="about.html">About</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="blog.html" style="color:#fff;">Blog</a>
+        <a href="gears.html">Gears</a>
+        <a href="shop.html">Shop</a>
+        <a href="login.html">Login</a>
+        <a href="cart.html">Cart</a>
+    </div>
+</div>
+
+
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-text">ZTA Blog</div>
+</div>
+
+
+
+<!-- BLOG GRID -->
+<div class="blog-container">
+
+    <!-- CARD 1 -->
+    <div class="blog-card">
+        <img src="assets/blog1.jpg" alt="">
+        <div class="blog-content">
+            <div class="blog-title">ZTA System Upgrade</div>
+            <div class="blog-text">
+                A massive backend optimization improves performance and
+                reduces latency across all ZTA systems...
+            </div>
+            <a class="blog-read" href="#">READ MORE →</a>
+        </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="blog-card">
+        <img src="assets/blog2.jpg" alt="">
+        <div class="blog-content">
+            <div class="blog-title">Astro Imaging Pipeline</div>
+            <div class="blog-text">
+                Our new imaging pipeline brings higher clarity, better noise control
+                and ultra-deep processing for long-exposure shots.
+            </div>
+            <a class="blog-read" href="#">READ MORE →</a>
+        </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="blog-card">
+        <img src="assets/blog3.jpg" alt="">
+        <div class="blog-content">
+            <div class="blog-title">Security Patch Notice</div>
+            <div class="blog-text">
+                A fresh update reinforces encryption and blocks new unauthorized
+                access attempts detected earlier this month.
+            </div>
+            <a class="blog-read" href="#">READ MORE →</a>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- FOOTER -->
+<footer>
+    © 2025 ZTA — All rights reserved.
+</footer>
+
+</body>
+</html>
