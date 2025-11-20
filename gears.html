@@ -1,1 +1,105 @@
-<html><body><h1>Gears</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZTA – Gears</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+    background: #000;
+    color: #0f0;
+    font-family: "Courier New", monospace;
+}
+
+/* Card style */
+.gear-card {
+    background: #0a0a0a;
+    border: 1px solid #0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.gear-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px #00ff80;
+    border-color: #00ff80;
+}
+
+.gear-img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+}
+
+.gear-title {
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    color: #0f0;
+}
+
+.nav-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #00ff88;
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="w-full p-4 flex justify-between items-center border-b border-green-500">
+    <span class="nav-title">ZTA / GEARS</span>
+    <a href="index.html" class="text-green-400 hover:text-green-200">Home</a>
+</div>
+
+<!-- GEARS GRID -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+
+    <!-- Gear 1 -->
+    <div class="gear-card">
+        <img src="assets/gear1.jpg" class="gear-img">
+        <p class="gear-title">ZTA Focuser Model</p>
+    </div>
+
+    <!-- Gear 2 -->
+    <div class="gear-card">
+        <img src="assets/gear2.jpg" class="gear-img">
+        <p class="gear-title">Pipe Converter 93→96mm</p>
+    </div>
+
+    <!-- Gear 3 -->
+    <div class="gear-card">
+        <img src="assets/gear3.jpg" class="gear-img">
+        <p class="gear-title">Adjustable Eyepiece Tube</p>
+    </div>
+
+    <!-- Gear 4 -->
+    <div class="gear-card">
+        <img src="assets/gear4.jpg" class="gear-img">
+        <p class="gear-title">ZTA Support Frame</p>
+    </div>
+
+    <!-- Gear 5 -->
+    <div class="gear-card">
+        <img src="assets/gear5.jpg" class="gear-img">
+        <p class="gear-title">Telescope Primary Holder</p>
+    </div>
+
+    <!-- Gear 6 -->
+    <div class="gear-card">
+        <img src="assets/gear6.jpg" class="gear-img">
+        <p class="gear-title">Precision Rotation Ring</p>
+    </div>
+
+</div>
+
+</body>
+</html>
