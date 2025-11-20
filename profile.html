@@ -1,1 +1,148 @@
-<html><body><h1>Profile</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZTA – Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        background: #000;
+        font-family: Arial, sans-serif;
+        color: #fff;
+    }
+
+    /* NAVBAR (same as your theme) */
+    .navbar {
+        width: 100%;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #000;
+        border-bottom: 1px solid #111;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    .nav-left {
+        font-size: 26px;
+        letter-spacing: 3px;
+        font-weight: 700;
+    }
+    .nav-right a {
+        margin-left: 25px;
+        color: #ccc;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+    .nav-right a:hover { color: #fff; }
+
+    /* PROFILE CARD */
+    .profile-box {
+        max-width: 500px;
+        margin: 80px auto;
+        background: #0b0b0b;
+        border: 1px solid #111;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .profile-title {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .profile-item {
+        margin-top: 12px;
+        font-size: 17px;
+        color: #bbb;
+    }
+
+    .logout-btn {
+        margin-top: 40px;
+        padding: 12px 25px;
+        background: #9a0000;
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .logout-btn:hover {
+        background: #c30000;
+    }
+</style>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script src="firebase.js"></script>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="nav-left">ZTA</div>
+
+    <div class="nav-right">
+        <a href="about.html">About</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="blog.html">Blog</a>
+        <a href="gears.html">Gears</a>
+        <a href="shop.html">Shop</a>
+        <a id="loginBtn" href="login.html">Login</a>
+        <a id="profileBtn" href="profile.html" style="display:none;">Profile</a>
+        <a href="cart.html">Cart</a>
+    </div>
+</div>
+
+
+<!-- PROFILE SECTION -->
+<div class="profile-box">
+    <div class="profile-title">Your Profile</div>
+
+    <div class="profile-item"><b>Username:</b> <span id="p-username">...</span></div>
+    <div class="profile-item"><b>Email:</b> <span id="p-email">...</span></div>
+    <div class="profile-item"><b>Joined:</b> <span id="p-date">...</span></div>
+
+    <button class="logout-btn" onclick="ZTA.logout()">Logout</button>
+</div>
+
+
+<script>
+// 🌙 Navbar Login/Profile Switch
+if (ZTA.checkLogin()) {
+    document.getElementById("loginBtn").style.display = "none";
+    document.getElementById("profileBtn").style.display = "inline";
+} else {
+    window.location.href = "login.html"; // must login first
+}
+
+// 🌙 Load Profile Info
+firebase.auth().onAuthStateChanged(async user => {
+    if (!user) return;
+
+    const uid = user.uid;
+
+    const doc = await ZTA.db.collection("users").doc(uid).get();
+    const data = doc.data();
+
+    document.getElementById("p-username").innerText = data?.username || "Unknown";
+    document.getElementById("p-email").innerText = data?.email || user.email;
+
+    const date = data?.createdAt?.toDate ? data.createdAt.toDate() : new Date();
+    document.getElementById("p-date").innerText = date.toDateString();
+});
+</script>
+
+</body>
+</html>
