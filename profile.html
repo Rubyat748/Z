@@ -6,200 +6,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #000;
-        color: #fff;
-        min-height: 100vh;
-    }
-
-    /* Navbar - EXACT same as index.html */
-    .navbar {
-        width: 100%;
-        padding: 20px 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #000;
-        border-bottom: 1px solid #111;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-    }
-    .nav-left {
-        font-size: 26px;
-        letter-spacing: 3px;
-        font-weight: 700;
-        color: #9acd32;
-    }
-    .nav-right a {
-        margin-left: 25px;
-        color: #ccc;
-        text-decoration: none;
-        font-size: 16px;
-        transition: 0.3s;
-    }
-    .nav-right a:hover {
-        color: #fff;
-    }
-
-    /* Hero (smaller than home) */
-    .hero {
-        width: 100%;
-        height: 45vh;
-        background: url("assets/background.jpg") center/cover no-repeat;
-        position: relative;
-    }
-    .hero::after {
-        content: "";
-        position: absolute;
-        left: 0; top: 0;
-        width: 100%; height: 100%;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.95));
-    }
-    .hero-text {
-        position: absolute;
-        bottom: 60px;
-        left: 60px;
-        font-size: 46px;
-        font-weight: 800;
-        letter-spacing: 5px;
-        text-transform: uppercase;
-        color: #9acd32;
-    }
-
-    /* Profile Container */
-    .profile-container {
-        max-width: 900px;
-        margin: 80px auto;
-        padding: 0 40px;
-        display: grid;
-        grid-template-columns: 250px 1fr;
-        gap: 50px;
-    }
-
-    /* Avatar Box */
-    .avatar-box {
-        text-align: center;
-    }
-    .avatar {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        border: 4px solid #9acd32;
-        object-fit: cover;
-        box-shadow: 0 0 30px rgba(154, 205, 50, 0.3);
-    }
-    .default-avatar {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        background: #111;
-        border: 4px solid #333;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 70px;
-        color: #555;
-    }
-
-    /* Info Box */
-    .info-box {
-        background: #0b0b0b;
-        border: 1px solid #111;
-        border-radius: 12px;
-        padding: 30px;
-        height: fit-content;
-    }
-    .info-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 14px 0;
-        border-bottom: 1px solid #222;
-    }
-    .info-row:last-child {
-        border-bottom: none;
-    }
-    .label {
-        color: #999;
-        font-size: 15px;
-    }
-    .value {
-        color: #fff;
-        font-weight: 600;
-    }
-    .username-display {
-        font-size: 28px;
-        font-weight: 700;
-        color: #9acd32;
-        margin-bottom: 20px;
-    }
-
-    /* Status Badge */
-    .status-badge {
-        display: inline-block;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 13px;
-        font-weight: bold;
-        margin-top: 10px;
-    }
+    body { margin: 0; font-family: Arial, sans-serif; background: #000; color: #fff; min-height: 100vh; }
+    .navbar { width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: #000; border-bottom: 1px solid #111; position: sticky; top: 0; z-index: 100; }
+    .nav-left { font-size: 26px; letter-spacing: 3px; font-weight: 700; color: #9acd32; }
+    .nav-right a { margin-left: 25px; color: #ccc; text-decoration: none; font-size: 16px; transition: 0.3s; }
+    .nav-right a:hover { color: #9acd32; }
+    .hero { width: 100%; height: 45vh; background: url("assets/background.jpg") center/cover no-repeat; position: relative; }
+    .hero::after { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.95)); }
+    .hero-text { position: absolute; bottom: 60px; left: 60px; font-size: 46px; font-weight: 800; letter-spacing: 5px; text-transform: uppercase; color: #9acd32; }
+    .profile-container { max-width: 900px; margin: 80px auto; padding: 0 40px; display: grid; grid-template-columns: 280px 1fr; gap: 50px; }
+    .avatar-box { text-align: center; position: relative; }
+    .avatar-upload { position: relative; display: inline-block; cursor: pointer; }
+    .avatar { width: 220px; height: 220px; border-radius: 50%; border: 5px solid #9acd32; object-fit: cover; box-shadow: 0 0 40px rgba(154, 205, 50, 0.4); transition: 0.3s; }
+    .avatar:hover { opacity: 0.8; }
+    .upload-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.7); color: #9acd32; padding: 10px; font-size: 14px; border-radius: 0 0 110px 110px; opacity: 0; transition: 0.3s; }
+    .avatar-upload:hover .upload-overlay { opacity: 1; }
+    .default-avatar { width: 220px; height: 220px; border-radius: 50%; background: #111; border: 5px solid #333; display: flex; align-items: center; justify-content: center; font-size: 90px; color: #555; }
+    .info-box { background: #0b0b0b; border: 1px solid #111; border-radius: 12px; padding: 30px; }
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #222; }
+    .info-row:last-child { border-bottom: none; }
+    .label { color: #999; font-size: 15px; }
+    .value { color: #fff; font-weight: 600; text-align: right; }
+    .username-display { font-size: 32px; font-weight: 700; color: #9acd32; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+    .edit-username { background: transparent; border: 1px solid #444; color: #9acd32; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+    .status-badge { display: inline-block; padding: 8px 18px; border-radius: 30px; font-size: 14px; font-weight: bold; margin-top: 15px; }
     .online { background: #1a4d1a; color: #9acd32; }
     .offline { background: #4d1a1a; color: #ff6666; }
-
-    /* Buttons */
-    .btn {
-        margin-top: 25px;
-        padding: 12px 24px;
-        background: transparent;
-        border: 1px solid #9acd32;
-        color: #9acd32;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.3s;
-        font-weight: bold;
-    }
-    .btn:hover {
-        background: #9acd32;
-        color: #000;
-    }
-    .logout-btn {
-        background: #330000;
-        border-color: #f33;
-        color: #f33;
-        margin-left: 10px;
-    }
-    .logout-btn:hover {
-        background: #f33;
-        color: #000;
-    }
-
-    /* Footer */
-    footer {
-        text-align: center;
-        padding: 40px;
-        color: #777;
-        font-size: 14px;
-        border-top: 1px solid #111;
-        margin-top: 120px;
-    }
+    .btn { padding: 12px 28px; background: transparent; border: 1px solid #9acd32; color: #9acd32; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: bold; margin-right: 10px; }
+    .btn:hover { background: #9acd32; color: #000; }
+    .logout-btn { background: #330000; border-color: #f33; color: #f33; }
+    .logout-btn:hover { background: #f33; color: #000; }
+    footer { text-align: center; padding: 50px; color: #555; font-size: 14px; border-top: 1px solid #111; margin-top: 150px; }
+    .saving { color: #9acd32; font-size: 12px; opacity: 0; transition: 0.3s; }
+    .saving.show { opacity: 1; }
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
+<!-- NAVBAR (Smart – same as index.html) -->
 <div class="navbar">
     <div class="nav-left">ZTA</div>
-    <div class="nav-right">
+    <div class="nav-right" id="navLinks">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="gallery.html">Gallery</a>
         <a href="blog.html">Blog</a>
         <a href="gears.html">Gears</a>
         <a href="shop.html">Shop</a>
-        <a href="profile.html">Profile</a>
-        <a href="#" onclick="ZTA.logout()">Logout</a>
+        <a href="cart.html">Cart</a>
+        <a href="login.html" id="loginLink">Login</a>
+        <a href="profile.html" id="profileLink" style="display:none;">Profile</a>
+        <a href="#" id="logoutLink" style="display:none;" onclick="ZTA.logout()">Logout</a>
     </div>
 </div>
 
@@ -210,95 +67,140 @@
 
 <!-- PROFILE SECTION -->
 <div class="profile-container">
-
-    <!-- Avatar -->
     <div class="avatar-box">
-        <div id="avatarPlaceholder" class="default-avatar">?</div>
-        <img id="avatarImg" class="avatar" style="display:none;" alt="Profile Picture">
+        <label class="avatar-upload">
+            <img id="avatarImg" class="avatar" src="" alt="Profile Picture" style="display:none;">
+            <div id="defaultAvatar" class="default-avatar">?</div>
+            <div class="upload-overlay">Click or Drop Photo</div>
+            <input type="file" id="photoInput" accept="image/*" style="display:none;">
+        </label>
         <p id="statusText" class="status-badge offline">Offline</p>
     </div>
 
-    <!-- Info -->
     <div class="info-box">
-        <div class="username-display" id="displayUsername">Loading...</div>
-
-        <div class="info-row">
-            <span class="label">User ID</span>
-            <span class="value" id="uid">—</span>
-        </div>
-        <div class="info-row">
-            <span class="label">Email</span>
-            <span class="value" id="email">—</span>
-        </div>
-        <div class="info-row">
-            <span class="label">Member Since</span>
-            <span class="value" id="joined">—</span>
-        </div>
-        <div class="info-row">
-            <span class="label">Account Status</span>
-            <span class="value" id="bannedStatus">Active</span>
+        <div class="username-display">
+            <span id="displayUsername">Loading...</span>
+            <button class="edit-username" onclick="editUsername()">✎</button>
+            <span class="saving" id="savingText">Saving...</span>
         </div>
 
-        <div style="margin-top: 30px;">
-            <button class="btn" onclick="alert('Edit profile coming soon!')">Edit Profile</button>
+        <div class="info-row"><span class="label">User ID</span><span class="value" id="uid">—</span></div>
+        <div class="info-row"><span class="label">Email</span><span class="value" id="email">—</span></div>
+        <div class="info-row"><span class="label">Member Since</span><span class="value" id="joined">—</span></div>
+        <div class="info-row"><span class="label">Account Status</span><span class="value" id="bannedStatus">Active</span></div>
+
+        <div style="margin-top: 35px;">
             <button class="btn logout-btn" onclick="ZTA.logout()">Logout</button>
         </div>
     </div>
 </div>
 
-<!-- FOOTER -->
-<footer>
-    © 2025 ZTA — All rights reserved.
-</footer>
+<footer>© 2025 ZTA — All rights reserved.</footer>
 
-<!-- Firebase (same as admin panel) -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
-<!-- Your firebase.js -->
 <script src="firebase.js"></script>
 
 <script>
-// Redirect if not logged in
+// Redirect if not logged in + Smart Navbar
 firebase.auth().onAuthStateChanged(user => {
-    if (!user) {
-        window.location.href = "login.html";
-        return;
-    }
+    if (!user) { window.location.href = "login.html"; return; }
+
+    document.getElementById("loginLink").style.display = "none";
+    document.getElementById("profileLink").style.display = "inline";
+    document.getElementById("logoutLink").style.display = "inline";
 
     loadProfile(user);
     monitorOnlineStatus(user.uid);
+    setupPhotoUpload(user);
 });
 
-// Load user data from Firestore
+// Load profile data
 async function loadProfile(user) {
     const doc = await ZTA.db.collection("users").doc(user.uid).get();
+    if (!doc.exists) return;
 
-    if (doc.exists) {
-        const data = doc.data();
+    const data = doc.data();
+    document.getElementById("displayUsername").textContent = data.username || "Astronomer";
+    document.getElementById("uid").textContent = user.uid.slice(0, 12) + "...";
+    document.getElementById("email").textContent = user.email;
+    document.getElementById("joined").textContent = new Date(data.created).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
 
-        document.getElementById("displayUsername").textContent = data.username || "Astronomer";
-        document.getElementById("uid").textContent = user.uid.slice(0, 12) + "...";
-        document.getElementById("email").textContent = user.email;
+    if (data.banned) {
+        document.getElementById("bannedStatus").textContent = "BANNED";
+        document.getElementById("bannedStatus").style.color = "#ff3333";
+    }
 
-        const date = new Date(data.created);
-        document.getElementById("joined").textContent = date.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
-
-        if (data.banned) {
-            document.getElementById("bannedStatus").textContent = "BANNED";
-            document.getElementById("bannedStatus").style.color = "#ff3333";
-        }
+    // Load avatar if exists
+    if (data.photoURL) {
+        document.getElementById("avatarImg").src = data.photoURL;
+        document.getElementById("avatarImg").style.display = "block";
+        document.getElementById("defaultAvatar").style.display = "none";
     }
 }
 
-// Realtime online status
+// Edit username
+function editUsername() {
+    const current = document.getElementById("displayUsername").textContent;
+    const newName = prompt("Enter new username:", current);
+    if (!newName || newName === current) return;
+
+    const saving = document.getElementById("savingText");
+    saving.classList.add("show");
+
+    ZTA.db.collection("users").doc(firebase.auth().currentUser.uid).update({ username: newName })
+        .then(() => {
+            document.getElementById("displayUsername").textContent = newName;
+            setTimeout(() => saving.classList.remove("show"), 1000);
+        })
+        .catch(err => alert("Error: " + err.message));
+}
+
+// Photo upload
+function setupPhotoUpload(user) {
+    const input = document.getElementById("photoInput");
+    const avatarImg = document.getElementById("avatarImg");
+    const defaultAvatar = document.getElementById("defaultAvatar");
+
+    // Click to upload
+    document.querySelector(".avatar-upload").addEventListener("click", () => input.click());
+
+    // Drag & drop
+    ["dragover", "dragenter"].forEach(e => document.querySelector(".avatar-upload").addEventListener(e, ev => ev.preventDefault()));
+    document.querySelector(".avatar-upload").addEventListener("drop", e => {
+        e.preventDefault();
+        if (e.dataTransfer.files.length) input.files = e.dataTransfer.files;
+        uploadPhoto(e.dataTransfer.files[0], user);
+    });
+
+    input.addEventListener("change", () => {
+        if (input.files.length) uploadPhoto(input.files[0], user);
+    });
+
+    async function uploadPhoto(file, user) {
+        if (!file.type.match("image.*")) return alert("Please select an image");
+
+        const ref = ZTA.storage.ref("avatars/" + user.uid + ".jpg");
+        await ref.put(file);
+        const url = await ref.getDownloadURL();
+
+        await ZTA.db.collection("users").doc(user.uid).update({ photoURL: url });
+
+        avatarImg.src = url;
+        avatarImg.style.display = "block";
+        defaultAvatar.style.display = "none";
+    }
+}
+
+// Online status
 function monitorOnlineStatus(uid) {
     ZTA.rtdb.ref("status/" + uid).on("value", snap => {
         const status = snap.val();
         const badge = document.getElementById("statusText");
-
         if (status && status.state === "online") {
             badge.textContent = "Online Now";
             badge.className = "status-badge online";
@@ -309,6 +211,5 @@ function monitorOnlineStatus(uid) {
     });
 }
 </script>
-
 </body>
 </html>
